@@ -4,14 +4,7 @@ import java.util.List;
 
 import com.inventory.InventorySystemSample.Entity.InventoryVO;
 
-public interface InventoryRepo {
+public interface InventoryRepo extends JpaRepository<InventoryVO, Integer> {
 	
-	List<InventoryVO> findByName(String name);
-   
-    List<InventoryVO> findById(long i);
-
-	List<InventoryVO> findAll();
-
-	List<InventoryVO> save(List<InventoryVO> entity);
-
+	
 }
