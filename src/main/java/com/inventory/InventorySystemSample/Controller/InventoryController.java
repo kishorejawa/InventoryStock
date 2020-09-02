@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.InventorySystemSample.Entity.InventoryVO;
 import com.inventory.InventorySystemSample.Service.InventoryRepo;
+import com.inventory.InventorySystemSample.Service.InventoryUtils;
 
 @RestController
 @RequestMapping("/inventory")
@@ -21,6 +22,8 @@ public class InventoryController {
 	
 	@Autowired
 	private InventoryRepo ivrepo;
+	@Autowired
+	private InventoryUtils Inventory;
 	
 	public InventoryController(InventoryRepo repo)
 	{
@@ -33,26 +36,16 @@ public class InventoryController {
         return new ResponseEntity<List<InventoryVO>>(list, new HttpHeaders(), HttpStatus.OK);
     }
 	 @GetMapping("/{id}")
-	    public ResponseEntity<InventoryVO> getById(@PathVariable("id") Long id) 
+	    public ResponseEntity<InventoryVO> getById(@PathVariable("id") Integer id) 
 	                                                    throws Exception {
-		 List<InventoryVO> entity = ivrepo.findById(id);
+		return (ResponseEntity<InventoryVO>) Inventory.getInventoryId(id);
 	 
-	        return new ResponseEntity<InventoryVO>((InventoryVO) entity, new HttpHeaders(), HttpStatus.OK);
+	        //return new ResponseEntity<InventoryVO>((InventoryVO) entity, new HttpHeaders(), HttpStatus.OK);
 	    }
-	 @PostMapping("/details")
-	    public ResponseEntity<InventoryVO> createOrUpdateEmployee(@RequestBody InventoryVO stock)
+	 @PostMapping
+	    public ResponseEntity<InventoryVO> createOrUpdateEmployee(InventoryVO employee)
 	                                                    throws Exception {
-		  ivrepo.save(stock);
+		 InventoryVO updated = (InventoryVO) Inventory.createOrUpdateEmployee((List<InventoryVO>) employee);
 	        return new ResponseEntity<InventoryVO>(updated, new HttpHeaders(), HttpStatus.OK);
 	    }
-	@PutMapping(("/details/{id}")
-	    public ResponseEntity<?> update(@RequestBody InventoryVO stock, @PathVariable Integer id){
-		    try{
-			    InventoryVO exitRec = ivrrepo.get(id);
-			    ivrepo.save(stock);
-			    return new ResponseEntity<InventoryVO>(updated, new HttpHeaders(), HttpStatus.OK);
-		    catch(NoSuchElementException e){
-			    return new ResponseEntity<InventoryVO>(HttpStatus.NOT_FOUND):
-		    }
-		    }
 }
