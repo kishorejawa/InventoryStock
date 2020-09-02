@@ -2,15 +2,13 @@ package com.inventory.InventorySystemSample.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.management.relation.RoleNotFoundException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jca.cci.RecordTypeNotSupportedException;
 import org.springframework.stereotype.Service;
 
 import com.inventory.InventorySystemSample.Entity.InventoryVO;
-import com.sun.el.stream.Optional;
+
 
 @Service
 public class InventoryUtils {
@@ -29,9 +27,9 @@ public class InventoryUtils {
 	        }
 	    }
 	    
-	    public Object getInventoryId(Long id) throws Exception 
+	    public Object getInventoryId(Integer id) throws Exception 
 	    {
-	        Optional details = (Optional) repository.findById(id);
+	        Optional<InventoryVO> details =  repository.findById(id);
 	         
 	        if(details.isPresent()) {
 	            return details.get();
@@ -46,7 +44,7 @@ public class InventoryUtils {
 	        List<InventoryVO> details = new ArrayList<>();
 	        InventoryVO entity1 = new InventoryVO();
 	         
-	        if(((Optional) details).isPresent()) 
+	        if( details.size()!=0) 
 	        {        	
 	        	 for (InventoryVO usr : details) {
 
