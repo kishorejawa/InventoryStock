@@ -39,10 +39,20 @@ public class InventoryController {
 	 
 	        return new ResponseEntity<InventoryVO>((InventoryVO) entity, new HttpHeaders(), HttpStatus.OK);
 	    }
-	 @PostMapping
-	    public ResponseEntity<InventoryVO> createOrUpdateEmployee(InventoryVO employee)
+	 @PostMapping("/details")
+	    public ResponseEntity<InventoryVO> createOrUpdateEmployee(@RequestBody InventoryVO stock)
 	                                                    throws Exception {
-		 InventoryVO updated = (InventoryVO) ivrepo.save((List<InventoryVO>) employee);
+		  ivrepo.save(stock);
 	        return new ResponseEntity<InventoryVO>(updated, new HttpHeaders(), HttpStatus.OK);
 	    }
+	@PutMapping(("/details/{id}")
+	    public ResponseEntity<?> update(@RequestBody InventoryVO stock, @PathVariable Integer id){
+		    try{
+			    InventoryVO exitRec = ivrrepo.get(id);
+			    ivrepo.save(stock);
+			    return new ResponseEntity<InventoryVO>(updated, new HttpHeaders(), HttpStatus.OK);
+		    catch(NoSuchElementException e){
+			    return new ResponseEntity<InventoryVO>(HttpStatus.NOT_FOUND):
+		    }
+		    }
 }
